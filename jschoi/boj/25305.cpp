@@ -13,9 +13,7 @@ int main() {
     vector<int> score(n);
 
     // 입력
-    for(int i = 0; i < n; i++){
-        cin >> score[i];
-    }
+    for(int i = 0; i < n; i++) cin >> score[i];
     // 정렬
     sort(score.begin(), score.end(), greater<int>());
 
