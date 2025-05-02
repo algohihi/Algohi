@@ -15,11 +15,11 @@ int main()
 	cp = ap * bp;
 	cc = (ac * bp) + (bc * ap);
 
-	min = (cc < cp) ? cc : cp;
+	min = (cc < cp) ? cc : cp;  // 둘 중 더 작은 골라서 반복문 돌리기 (시간초과)
 
-	for ( i = cc; i > 0; i--)
+	for ( i = min; i > 0; i--)  //최대공약수
 	{
-		if (min % i == 0 && cp % i == 0)
+		if (cc % i == 0 && cp % i == 0)
 		{
 			n = i;
 			break;
