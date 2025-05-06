@@ -25,6 +25,7 @@ int main(){
 }
 
 // 유클리드 호제법: 최대 공약수(gcd)를 구하는 방법
+// 정리: https://www.notion.so/1eb8c82ccfab807f8f01faa77c3bfb50?pvs=4
 int getGcd(int n1, int n2){
     while(n2 != 0){
         int temp = n1 % n2;
