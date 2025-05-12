@@ -8,16 +8,17 @@ int main() {
     int answer[100000] = { 0 };  // 최대 크기 가정
 
     // 각 시점 i에 대해
-    for (int i = 0; i < len; i++) {
-        int duration = 0;
+    for (int i = 0; i < len; i++) 
+    {
+        int count = 0;
         // i 이후 시점들을 순회
         for (int j = i + 1; j < len; j++) {
-            duration++;
+            count++;
             if (prices[j] < prices[i]) {
                 break; // 가격이 떨어지면 중단
             }
         }
-        answer[i] = duration;
+        answer[i] = count;
     }
 
     // 결과 출력
@@ -39,16 +40,20 @@ int main() {
 
 
 // prices_len은 배열 prices의 길이입니다.
-int* solution(int prices[], size_t prices_len) {
+int* solution(int prices[], size_t prices_len) 
+{
     // 동적 할당으로 결과 배열 생성
     int* answer = (int*)malloc(sizeof(int) * prices_len);
 
     // 각 시점에서 가격이 떨어지지 않은 시간을 계산
-    for (size_t i = 0; i < prices_len; i++) {
+    for (size_t i = 0; i < prices_len; i++) 
+    {
         answer[i] = 0;
-        for (size_t j = i + 1; j < prices_len; j++) {
+        for (size_t j = i + 1; j < prices_len; j++) 
+        {
             answer[i]++;
-            if (prices[j] < prices[i]) {
+            if (prices[j] < prices[i]) 
+            {
                 break; // 가격이 떨어지면 그 시점에서 멈춤
             }
         }
@@ -58,14 +63,16 @@ int* solution(int prices[], size_t prices_len) {
 }
 
 // 테스트용 메인 함수
-int main() {
+int main() 
+{
     int prices[] = { 1, 2, 3, 2, 3 };             // 입력 배열
     size_t len = sizeof(prices) / sizeof(int);  // 길이 계산
 
     int* result = solution(prices, len);        // 함수 호출
 
     // 결과 출력
-    for (size_t i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) 
+    {
         printf("%d ", result[i]);
     }
     printf("\n");
@@ -87,25 +94,30 @@ typedef struct {
 Node stack[100000];
 int topIdx = -1;
 
-void push(int price, int index) {
+void push(int price, int index) 
+{
     topIdx++;
     stack[topIdx].price = price;
     stack[topIdx].index = index;
 }
 
-Node pop() {
+Node pop() 
+{
     return stack[topIdx--];
 }
 
-int isEmpty() {
+int isEmpty() 
+{
     return topIdx == -1;
 }
 
-Node top() {
+Node top() 
+{
     return stack[topIdx];
 }
 
-int main() {
+int main() 
+{
     int prices[] = { 1, 2, 3, 2, 3 };
     int len = sizeof(prices) / sizeof(prices[0]);
     int answer[100000] = { 0 };  // 최대 크기 가정
