@@ -5,6 +5,19 @@
 
 using namespace std;
 
+void solution(const string& testcase);
+int main() {
+    int caseCnt;
+    cin >> caseCnt;
+    for(int i = 0; i < caseCnt; i++){
+        string testcase;
+        cin >> testcase;
+        solution(testcase);
+    }
+    return 0;
+}
+
+
 // c언어랑 다르게 참조타입 매개변수일 때 함수 선언, 호출할 때 키워드 다 안써도 됨
 // cpp에서는 선언할때 & 참조타입으로 받게하고, 호출할때는 변수명만 넣으면 알아서 참조타입 전달
 
@@ -56,21 +69,6 @@ void solution(const string& testcase) {
     }
     cout << '\n';
 }
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int caseCnt;
-    cin >> caseCnt;
-    while (caseCnt--) {
-        string testcase;
-        cin >> testcase;
-        solution(testcase);
-    }
-    return 0;
-}
-
 
 
 /*
