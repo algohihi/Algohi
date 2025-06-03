@@ -1,106 +1,45 @@
-﻿/* 배열 인덱스(pos)로 "아직 먹지 않은 상어"와 "먹을 수 있는 후보" 구분
-정렬된 배열에서 pos를 앞으로 이동하면서 t보다 작은 상어를 힙에 넣고, 힙에서 가장 큰 상어 먹기
-
-1. 입력 및 정렬
-상어 크기 배열 arr을 오름차순 정렬합니다.
-
-2. 인덱스 변수 관리
-pos : 아직 먹지 않은 상어 중에서, 현재 몸집 t보다 작은 상어의 첫 인덱스(= 먹을 수 있는 후보의 끝)
-
-"먹을 수 있는 상어 후보"는 arr[pos] < t인 모든 arr[pos]입니다.
-
-이 후보들을 최대 힙(배열)로 관리해서, 매번 가장 큰 상어를 먹습니다.
-
-3. 반복문
-K번 반복:
-
-아직 먹지 않은 상어 중에서 arr[pos] < t인 모든 상어를 힙에 push
-
-힙이 비어 있으면 종료 (더 이상 먹을 수 없음)
-
-힙에서 pop하여 가장 큰 상어를 먹고, t에 더함
-
-*/
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <stdlib.h>
-
-#define MAXN 200000
-
-// 오름차순 정렬 함수
-int compare(const void* a, const void* b) 
-{
-    long long x = *(const long long*)a;
-    long long y = *(const long long*)b;
-    if (x < y) return -1;
-    if (x > y) return 1;
-    return 0;
-}
-
-// 최대 힙 구현
-long long heap[MAXN + 1];
-int heap_size = 0;
-
-void push(long long x) 
-{
-    int i = ++heap_size;
-    while (i != 1 && heap[i / 2] < x) 
-    {
-        heap[i] = heap[i / 2];
-        i /= 2;
-    }
-    heap[i] = x;
-}
-
-long long pop() 
-{
-    long long ret = heap[1];
-    long long temp = heap[heap_size--];
-    int parent = 1, child = 2;
-    while (child <= heap_size) 
-    {
-        if (child < heap_size && heap[child] < heap[child + 1])
-            child++;
-        if (temp >= heap[child]) break;
-        heap[parent] = heap[child];
-        parent = child;
-        child *= 2;
-    }
-    heap[parent] = temp;
-    return ret;
-}
 
 int main() 
 {
-    int n, k;
-    long long t;
-    long long arr[MAXN];
+    int n, k;                // n: 상어 수, k: 최대 먹을 수 있는 횟수
+    long long t;             // t: 상어의 현재 몸집 (long long: 큰 수 대비)
+    int arr[200000];         // 상어 크기 배열 (최대 20만 마리)
+    
+    scanf("%d %d %lld", &n, &k, &t); // n, k, t 입력 받기
 
-    scanf("%d %d %lld", &n, &k, &t);
-
-    for (int i = 0; i < n; i++) {
-        scanf("%lld", &arr[i]);
+    // 상어 크기 입력 받기
+    for (int i = 0; i < n; i++) 
+    {
+        scanf("%d", &arr[i]);    // 각 상어의 크기를 배열에 저장
     }
 
-    // 1. 오름차순 정렬
-    qsort(arr, n, sizeof(long long), compare);
-     
-    int pos = 0; // 아직 먹지 않은 상어 중 가장 작은 것의 인덱스  ( 현재 몸집 t보다 작은 상어의 첫 인덱스 )
+    // k번 반복 (최대 k마리까지 먹을 수 있음)
+    for (int i = 0; i < k; i++) 
+    {
+        int idx = -1;           // 이번에 먹을 상어의 인덱스 (없으면 -1)
+        int max = -1;       // 먹을 수 있는 상어 중 가장 큰 값
 
-    // 2. 최대 k번 반복
-    for (int i = 0; i < k; i++) {
-        // 현재 t로 먹을 수 있는 상어를 모두 힙에 push
-        while (pos < n && arr[pos] < t) {
-            push(arr[pos]);
-            pos++;
+        // 모든 상어를 확인
+        for (int i = 0; i < n; i++) 
+        {
+            // 아직 먹지 않았고, 몸집 t보다 작은 상어 중에서
+            // 가장 큰 상어를 찾음
+            if (arr[i] != -1 && arr[i] < t && arr[i] > max) 
+            {
+                max = arr[i];   // 더 큰 상어 발견
+                idx = i;            // 그 상어의 인덱스 저장
+            }
         }
-        // 먹을 수 있는 상어가 없으면 종료
-        if (heap_size == 0) break;
-        // 가장 큰 상어 먹기
-        t += pop();
+
+        // 먹을 수 있는 상어가 없으면 반복 종료
+        if (idx == -1) break;
+
+        t += arr[idx];      // 상어를 먹어서 몸집 키우기
+        arr[idx] = -1;      // 먹은 상어는 다시 못 먹게 -1로 표시
     }
 
-    printf("%lld\n", t);
-    return 0;
+    printf("%lld\n", t);    // 최종 몸집 출력
+    return 0;               // 프로그램 종료
 }
