@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <stack>
 #include <vector>
 
@@ -7,57 +8,34 @@ using namespace std;
 int main() {
     int n = 0; // 상어 마릿수
     int k = 0; // 최대 k마리 먹을 수 있다
-    int t = 0; // 샼의 최초 크기
-    stack<int> st;  // 상어 크기 정보 스택
+    long long t = 0; // 샼의 최초 크기
+    vector<long long> sharks; // 상어 담을 Vector
 
+    // 입력받고 정렬
     cin >> n >> k >> t;
-
     for (int i = 0; i < n; i++) {
-        int temp;
-        cin >> temp;
-        st.push(temp);
+        int s;
+        cin >> s;
+        sharks.push_back(s);
     }
+    sort(sharks.begin(), sharks.end());
 
-    // n=5 k=1 t=17
-    // 8 9 11 7 6
+    // 먹어보자
+    int i = 0; // 이미 추가한 상어는 추가 안하려고 밖에서 선언
+    stack<long long> st;
+    while(k > 0){
+        // 먹을 수 있는 상어 스택에 추가하기
+        while(i < n && sharks[i] < t) st.push(sharks[i++]);
 
-    int max = 0;
-    while (!st.empty()) {
-        // 0. st이 비었다면 다 안먹었어도 멈춰야해 (while 조건으로 처리)
-        if (st.top() <= t) {
-            // 1. 먹을 수 있나? 그럼 max와 비교 max보다 크면 max에 넣고 일단 pop
-            if (max < st.top()) max = st.top();
-            st.pop();
-        } else {
-            // 2. 먹을 수 없나? 그럼 max에 있는 값을 더하고 다시 비교
-            if (max == 0) {
-                // max에 갱신된 값이 없으면 못 먹으므로 break
-                break;
-            }
-
-            // 하나 먹었으니까 t에 더하고, k-1
-            t += max;
-            max = 0;
-            k--;
-
-            if (k < 0) break; // k 소진
-        }
+        // 먹을 수 있는 상어가 없으면 break
+        if(st.empty()) break;
+        
+        // 먹을 수 있는 상어가 있으면
+        t += st.top();
+        st.pop();
+        k -= 1;
     }
-
-    // 루프가 끝났는데 max가 남아 있다면 아직 먹지 않은 최댓값이 남은 경우임
-    if (max != 0) t += max;
 
     cout << t;
     return 0;
 }
-
-
-
-/*
-stack에 쌓고 top()을 확인해
-0. st이 비었다면 다 안먹었어도 멈춰야해
-1. 먹을 수 있나? 그럼 max와 비교 max보다 크면 max에 넣고 일단 pop
-2. 먹을 수 없나? 그럼 max에 있는 값을 더하고 다시 비교
-    - 하나 먹었으니까 k+1
-    - 만약에 max에 값이 들어간 적이 없다면? break
-*/
