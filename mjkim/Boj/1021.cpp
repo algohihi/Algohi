@@ -3,7 +3,7 @@
 
 using namespace std;
 
-//±¸Á¶Ã¼ ¼±¾ğ
+//êµ¬ì¡°ì²´ ì„ ì–¸
 typedef struct queue {
     int* arr;
     int front;
@@ -12,7 +12,7 @@ typedef struct queue {
     int capacity;
 } queue;
 
-//ÇÔ¼ö¾ğ
+//í•¨ìˆ˜ì–¸
 void queueInit(queue* pQue, int size);
 void enqueue(queue* pQue, int data);
 int dequeue(queue* pQue);
@@ -25,18 +25,18 @@ int main() {
     queue que;
     int n, m;
 
-    //n, mÀÔ·Â¹Ş¾Æ¼­
+    //n, mì…ë ¥ë°›ì•„ì„œ
     cin >> n >> m;
 
-    //±¸Á¶Ã¼ ÃÊ±âÈ­
+    //êµ¬ì¡°ì²´ ì´ˆê¸°í™”
     queueInit(&que, n);
 
-    // Å¥¿¡ 1 ~ n ÀúÀå
+    // íì— 1 ~ n ì €ì¥
     for (int i = 1; i <= n; i++) {
         enqueue(&que, i);
     }
 
-    // »ÌÀ» ¼ıÀÚµé
+    // ë½‘ì„ ìˆ«ìë“¤
     int* idx = (int*)malloc(sizeof(int) * m);
     for (int i = 0; i < m; i++) {
         cin >> idx[i];
@@ -46,28 +46,28 @@ int main() {
 
     for (int i = 0; i < m; i++) {
         int target = idx[i];
-        int pos = findIndex(&que, target); // Å¥ÀÇ ÇöÀç »óÅÂ¿¡¼­ targetÀÇ À§Ä¡
+        int pos = findIndex(&que, target); // íì˜ í˜„ì¬ ìƒíƒœì—ì„œ targetì˜ ìœ„ì¹˜
 
-        //Å¥ÀÇ °¡¿îµ¥¸¦ ±âÁØÀ¸·Î targetÀÌ ¾ÕÂÊ¿¡ ÀÖÀ¸¸é ¿ŞÂÊ È¸Àü, µÚÂÊÀÌ¸é ¿À¸¥ÂÊ È¸ÀüÀ» ¼±ÅÃ
+        //íì˜ ê°€ìš´ë°ë¥¼ ê¸°ì¤€ìœ¼ë¡œ targetì´ ì•ìª½ì— ìˆìœ¼ë©´ ì™¼ìª½ íšŒì „, ë’¤ìª½ì´ë©´ ì˜¤ë¥¸ìª½ íšŒì „ì„ ì„ íƒ
         if (pos <= que.count / 2) {
-            // ¿ŞÂÊ È¸Àü
+            // ì™¼ìª½ íšŒì „
             for (int j = 0; j < pos; j++) {
                 rotateLeft(&que);
                 total++;
             }
         }
         else {
-            // ¿À¸¥ÂÊ È¸Àü
+            // ì˜¤ë¥¸ìª½ íšŒì „
             for (int j = 0; j < que.count - pos; j++) {
                 rotateRight(&que);
                 total++;
             }
         }
 
-        dequeue(&que); // ¸Ç ¾Õ ¿ä¼Ò ²¨³»±â
+        dequeue(&que); // ë§¨ ì• ìš”ì†Œ êº¼ë‚´ê¸°
     }
 
-    //Ãâ·Â
+    //ì¶œë ¥
     cout << total << endl;
 
     free(idx);
@@ -75,7 +75,7 @@ int main() {
     return 0;
 }
 
-// Å¥ ÃÊ±âÈ­
+// í ì´ˆê¸°í™”
 void queueInit(queue* pQue, int size) {
     pQue->arr = (int*)malloc(sizeof(int) * size);
     pQue->front = 0;
@@ -84,18 +84,18 @@ void queueInit(queue* pQue, int size) {
     pQue->capacity = size;
 }
 
-// »ğÀÔ
+// ì‚½ì…
 void enqueue(queue* pQue, int data) {
-    if (pQue->count == pQue->capacity) return; // overflow »ı·«
+    if (pQue->count == pQue->capacity) return; // overflow ìƒëµ
 
     pQue->arr[pQue->rear] = data;
     pQue->rear = (pQue->rear + 1) % pQue->capacity;
     pQue->count++;
 }
 
-// »èÁ¦
+// ì‚­ì œ
 int dequeue(queue* pQue) {
-    if (pQue->count == 0) return -1; // underflow »ı·«
+    if (pQue->count == 0) return -1; // underflow ìƒëµ
 
     int val = pQue->arr[pQue->front];
     pQue->front = (pQue->front + 1) % pQue->capacity;
@@ -103,47 +103,43 @@ int dequeue(queue* pQue) {
     return val;
 }
 
-// ¿ŞÂÊÀ¸·Î ÇÑ Ä­ È¸Àü 
+// ì™¼ìª½ìœ¼ë¡œ í•œ ì¹¸ íšŒì „ 
 void rotateLeft(queue* pQue) {
-    int val = dequeue(pQue); //¸Ç ¾Õ ¿ä¼Ò¸¦ »©¼­ val¿¡ ÀúÀå
-    enqueue(pQue, val);  //valÀ» ´Ù½Ã »ğÀÔ
+    int val = dequeue(pQue); //ë§¨ ì• ìš”ì†Œë¥¼ ë¹¼ì„œ valì— ì €ì¥
+    enqueue(pQue, val);  //valì„ ë‹¤ì‹œ ì‚½ì…
 }
 
-// ¿À¸¥ÂÊÀ¸·Î ÇÑ Ä­ È¸Àü (µÚ¿¡¼­ ÇÏ³ª »©¼­ ¾ÕÀ¸·Î ³Ö±â)
+// ì˜¤ë¥¸ìª½ìœ¼ë¡œ í•œ ì¹¸ íšŒì „ (ë’¤ì—ì„œ í•˜ë‚˜ ë¹¼ì„œ ì•ìœ¼ë¡œ ë„£ê¸°)
 void rotateRight(queue* pQue) {
-    if (pQue->count == 0) return;  //¿ä¼Ò°¡ ¾øÀ¸¸é ¸®ÅÏ
+    if (pQue->count == 0) return;  //ìš”ì†Œê°€ ì—†ìœ¼ë©´ ë¦¬í„´
 
-    // rear ÇÑ Ä­ µÚ·Î (¸¶Áö¸· ¿ä¼Ò À§Ä¡)
+    // rear í•œ ì¹¸ ë’¤ë¡œ (ë§ˆì§€ë§‰ ìš”ì†Œ ìœ„ì¹˜)
     pQue->rear = (pQue->rear - 1 + pQue->capacity) % pQue->capacity;
     int val = pQue->arr[pQue->rear];
 
-    // front ÇÑ Ä­ µÚ·Î
+    // front í•œ ì¹¸ ë’¤ë¡œ
     pQue->front = (pQue->front - 1 + pQue->capacity) % pQue->capacity;
     pQue->arr[pQue->front] = val;
 
-    /*front = 9
-            rear = 0
 
-            val = arr[9] = 10
-            arr[8] = val = 10*/
 }
 
-// ¿øÇÏ´Â °ªÀÌ Å¥ÀÇ ¸î ¹øÂ° À§Ä¡¿¡ ÀÖ´ÂÁö (¾Õ¿¡¼­ºÎÅÍ °Å¸®)
+// ì›í•˜ëŠ” ê°’ì´ íì˜ ëª‡ ë²ˆì§¸ ìœ„ì¹˜ì— ìˆëŠ”ì§€ (ì•ì—ì„œë¶€í„° ê±°ë¦¬)
 int findIndex(queue* pQue, int target) {
-    for (int i = 0; i < pQue->count; i++) {  //0ºÎÅÍ ¿ä¼Ò °³¼ö¸¸Å­ ¹İº¹
-        //frontºÎÅÍ ½ÃÀÛÇØ¼­ iÄ­ ¶³¾îÁø À§Ä¡ = (front + i) % capacity ³ª¸ÓÁö¸¸Å­
+    for (int i = 0; i < pQue->count; i++) {  //0ë¶€í„° ìš”ì†Œ ê°œìˆ˜ë§Œí¼ ë°˜ë³µ
+        //frontë¶€í„° ì‹œì‘í•´ì„œ iì¹¸ ë–¨ì–´ì§„ ìœ„ì¹˜ = (front + i) % capacity ë‚˜ë¨¸ì§€ë§Œí¼
         int idx = (pQue->front + i) % pQue->capacity;
         if (pQue->arr[idx] == target)
             return i;
     }
     return -1;
 
-    /*Å¥ ¿ø¼Ò : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    /*í ì›ì†Œ : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             index :       0        2           1
-            Å¸°ÙÀÌ 2¸é  9 + i % 10 = 0 => i = 1À» ¸®ÅÏ*/
+            íƒ€ê²Ÿì´ 2ë©´  9 + i % 10 = 0 => i = 1ì„ ë¦¬í„´*/
 }
 
-// ¸Ş¸ğ¸® ÇØÁ¦
+// ë©”ëª¨ë¦¬ í•´ì œ
 void freeQueue(queue* pQue) {
     free(pQue->arr);
 }
