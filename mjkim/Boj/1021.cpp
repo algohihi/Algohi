@@ -135,8 +135,8 @@ int findIndex(queue* pQue, int target) {
     return -1;
 
     /*큐 원소 : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-            index :       0        2           1
-            타겟이 2면  9 + i % 10 = 0 => i = 1을 리턴*/
+      index :       0        2           1
+            타겟이 2면  0 + i % 10 = 0 => i = 0을 리턴*/
 }
 
 // 메모리 해제
