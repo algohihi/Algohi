@@ -52,6 +52,11 @@ public:
 
 
 int main() {
+	// 입출력 최적화 코드라고 합니다
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	int n, l;
 	cin >> n >> l;
 
