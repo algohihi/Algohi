@@ -18,7 +18,4 @@ int main() {
 	}
 
 	cout << arr[n] << '\n';
-
-	return 0;
-
 }
